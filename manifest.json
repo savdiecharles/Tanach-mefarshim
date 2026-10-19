@@ -1,0 +1,9 @@
+{
+  "name": "Tanach & Mefarshim",
+  "short_name": "Tanach",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#faf8f3",
+  "theme_color": "#102c46",
+  "description": "A focused Tanach and commentary library prototype"
+}

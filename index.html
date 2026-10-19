@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#102c46">
+<title>Tanach & Mefarshim</title>
+<link rel="manifest" href="manifest.json">
+<style>
+:root{--navy:#102c46;--navy2:#1c3c58;--gold:#b18a43;--paper:#faf8f3;--ink:#1d2935;--muted:#697684;--line:#e4e0d7;--white:#fff}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+header{background:var(--navy);color:white;padding:calc(18px + env(safe-area-inset-top)) 18px 18px}
+.brand{font-size:21px;font-weight:750;letter-spacing:.1px}.sub{font-size:12px;color:#d7e3ef;margin-top:4px}
+main{max-width:760px;margin:0 auto;padding:16px 14px 92px}
+.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin:0 0 18px}
+.tab{border:1px solid var(--line);background:white;border-radius:12px;padding:10px 4px;font-size:12px;color:var(--ink);font-weight:650}
+.tab.active{background:var(--navy);color:white;border-color:var(--navy)}
+h1{font-size:24px;margin:8px 0 5px}h2{font-size:18px;margin:0 0 10px}p{line-height:1.45}
+.muted{color:var(--muted);font-size:13px}.panel{background:white;border:1px solid var(--line);border-radius:16px;padding:15px;margin:12px 0}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.tile{background:white;border:1px solid var(--line);border-radius:14px;padding:14px;text-align:left;min-height:88px;color:var(--ink)}
+.tile b{display:block;margin-bottom:5px}.tile span{font-size:12px;color:var(--muted)}
+input,select{width:100%;padding:12px;border:1px solid #d8dce0;border-radius:10px;background:white;font:inherit;margin:5px 0 10px;color:var(--ink)}
+button{cursor:pointer}.primary{background:var(--navy);color:white;border:0;border-radius:10px;padding:12px 14px;font-weight:650;width:100%}
+.item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}.item:last-child{border-bottom:0}
+.icon{width:42px;height:42px;border-radius:12px;background:#f1ede3;display:grid;place-items:center;color:var(--navy);font-size:20px;flex-shrink:0}
+.item b{display:block}.item small{display:block;color:var(--muted);margin-top:4px;line-height:1.35}
+.hebrew{font-size:23px;line-height:1.8;text-align:right;direction:rtl}
+.chip{display:inline-block;padding:5px 8px;border-radius:99px;background:#f1ede3;color:#594723;font-size:11px;margin:2px}
+.notice{background:#fff8e8;border:1px solid #ead8ad;border-radius:12px;padding:12px;font-size:12px;line-height:1.45;color:#624d25}
+.hidden{display:none!important}
+footer{position:fixed;bottom:0;left:0;right:0;background:rgba(250,248,243,.96);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:10px 14px calc(10px + env(safe-area-inset-bottom));text-align:center;font-size:11px;color:var(--muted)}
+@media(min-width:600px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.tab{font-size:14px}}
+</style>
+</head>
+<body>
+<header><div class="brand">Tanach & Mefarshim</div><div class="sub">A focused library for learning Tanach</div></header>
+<main>
+<nav class="tabs">
+<button class="tab active" data-page="tanach">Tanach</button>
+<button class="tab" data-page="categories">Mefarshim</button>
+<button class="tab" data-page="all">All works</button>
+<button class="tab" data-page="search">Search</button>
+</nav>
+
+<section id="tanach" class="page">
+<h1>Tanach</h1><p class="muted">Choose a book and navigate to a chapter and verse.</p>
+<div class="panel">
+<label for="division">Section</label><select id="division"><option>Torah</option><option>Nevi'im</option><option>Ketuvim</option></select>
+<label for="book">Sefer</label><select id="book"><option>Bereishit</option><option>Shemot</option><option>Vayikra</option><option>Bamidbar</option><option>Devarim</option></select>
+<label for="parasha">Parasha (optional)</label><select id="parasha"><option>Bereshit</option><option>Noach</option><option>Lech Lecha</option><option>Vayera</option><option>Chayei Sarah</option><option>Toldot</option><option>Vayetzei</option><option>Vayishlach</option><option>Vayeshev</option><option>Miketz</option><option>Vayigash</option><option>Vayechi</option></select>
+<div class="grid"><div><label for="chapter">Perek</label><select id="chapter"></select></div><div><label for="verse">Passuk</label><select id="verse"></select></div></div>
+<button class="primary" id="openVerse">Open pasuk & commentaries</button>
+</div>
+<div id="verseView" class="panel hidden">
+<div class="muted" id="refLabel">Bereishit 1:1</div>
+<div class="hebrew">בְּרֵאשִׁית בָּרָא אֱלֹהִים אֵת הַשָּׁמַיִם וְאֵת הָאָרֶץ</div>
+<p class="muted">Prototype example text. The live version will load the actual text and sources available through AlHaTorah.</p>
+<h2>Commentaries on this pasuk</h2>
+<div class="item"><div class="icon">ר</div><div><b>Rashi — רש״י</b><small>Rashi's own commentary and identified explanations of Rashi.</small></div></div>
+<div class="item"><div class="icon">רב</div><div><b>Ramban — רמב״ן</b><small>Ramban's commentary and related explanatory works where available.</small></div></div>
+<div class="item"><div class="icon">+</div><div><b>All available commentaries</b><small>Browse the full source list for this verse.</small></div></div>
+</div>
+</section>
+
+<section id="categories" class="page hidden">
+<h1>Browse by mefaresh</h1><p class="muted">Major categories group a commentator's work with works that explain that commentator.</p>
+<div class="grid" id="categoryGrid"></div>
+<div class="notice" style="margin-top:14px">A work belongs in a category based on what it explains, not just who wrote it. For example, Gur Aryeh and Siftei Chachamim belong with Rashi where their relevant material is available. The full catalogue remains available under “All works.”</div>
+</section>
+
+<section id="all" class="page hidden">
+<h1>All Commentaries & Works</h1><p class="muted">The complete catalogue, including less commonly studied works.</p>
+<input id="allFilter" placeholder="Filter works by name…">
+<div id="allList" class="panel"></div>
+</section>
+
+<section id="search" class="page hidden">
+<h1>Search</h1><p class="muted">Search Tanach, commentators, or a source title.</p>
+<input id="searchInput" placeholder="Try “Rashi”, “Bereishit”, or a Hebrew word…">
+<button id="searchButton" class="primary">Search library</button>
+<div id="searchResults" class="panel hidden"></div>
+</section>
+</main>
+<footer>Prototype interface · Real AlHaTorah text integration is the next stage</footer>
+<script>
+const works=[
+{name:"Rashi",he:"רש״י",desc:"Rashi's commentary and identified explanations of Rashi",group:"Major category"},
+{name:"Ramban",he:"רמב״ן",desc:"Ramban's commentary and related explanatory works",group:"Major category"},
+{name:"Ibn Ezra",he:"אבן עזרא",desc:"Ibn Ezra and relevant explanatory works",group:"Major category"},
+{name:"Targum Onkelos",he:"תרגום אונקלוס",desc:"Onkelos on the Torah",group:"Major category"},
+{name:"Sforno",he:"ספורנו",desc:"Sforno's commentary and related works",group:"Major category"},
+{name:"Or HaChaim",he:"אור החיים",desc:"Or HaChaim's commentary and related works",group:"Major category"},
+{name:"Gur Aryeh",he:"גור אריה",desc:"Maharal's work explaining Rashi",group:"All works"},
+{name:"Mizrachi",he:"מזרחי",desc:"Supercommentary on Rashi",group:"All works"},
+{name:"Siftei Chachamim",he:"שפתי חכמים",desc:"Explanations and clarifications of Rashi",group:"All works"},
+{name:"Other available commentaries",he:"מפרשים נוספים",desc:"Less commonly studied works and other available sources",group:"All works"}
+];
+const grid=document.getElementById('categoryGrid'), list=document.getElementById('allList');
+function row(w){return `<div class="item"><div class="icon">📖</div><div><b>${w.name} <span class="muted">${w.he}</span></b><small>${w.desc}</small><span class="chip">${w.group}</span></div></div>`}
+grid.innerHTML=works.filter(w=>w.group==="Major category").map(w=>`<button class="tile" data-work="${w.name}"><b>${w.name}</b><span>${w.he}<br>${w.desc}</span></button>`).join('');
+function renderAll(q=''){list.innerHTML=works.filter(w=>(w.name+' '+w.he+' '+w.desc).toLowerCase().includes(q.toLowerCase())).map(row).join('')||'<p>No matching titles in this prototype.</p>'}
+renderAll();
+document.getElementById('allFilter').addEventListener('input',e=>renderAll(e.target.value));
+document.getElementById('searchButton').addEventListener('click',()=>{
+ const q=document.getElementById('searchInput').value.trim().toLowerCase();
+ const matches=works.filter(w=>(w.name+' '+w.he+' '+w.desc).toLowerCase().includes(q));
+ const out=document.getElementById('searchResults');out.classList.remove('hidden');
+ out.innerHTML=q?(matches.map(row).join('')||'<p>No matching title in this sample catalogue. Full text search requires connecting the source library.</p>'):'<p>Enter a search term first.</p>';
+});
+document.getElementById('searchInput').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('searchButton').click()});
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{
+ document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t===b));
+ document.querySelectorAll('.page').forEach(p=>p.classList.toggle('hidden',p.id!==b.dataset.page));
+}));
+document.getElementById('division').addEventListener('change',e=>{
+ const books={Torah:['Bereishit','Shemot','Vayikra','Bamidbar','Devarim'], "Nevi'im":['Yehoshua','Shoftim','Shmuel I','Shmuel II','Melakhim I','Melakhim II','Yeshayahu','Yirmiyahu','Yechezkel','Trei Asar'],Ketuvim:['Tehillim','Mishlei','Iyov','Shir HaShirim','Rut','Eichah','Kohelet','Esther','Daniel','Ezra-Nechemiah','Divrei Hayamim']};
+ document.getElementById('book').innerHTML=books[e.target.value].map(x=>`<option>${x}</option>`).join('');
+});
+const ch=document.getElementById('chapter'), ve=document.getElementById('verse');
+for(let i=1;i<=50;i++)ch.add(new Option(i,i));
+for(let i=1;i<=40;i++)ve.add(new Option(i,i));
+document.getElementById('openVerse').addEventListener('click',()=>{
+ document.getElementById('refLabel').textContent=`${document.getElementById('book').value} ${ch.value}:${ve.value}`;
+ document.getElementById('verseView').classList.remove('hidden');
+ document.getElementById('verseView').scrollIntoView({behavior:'smooth',block:'start'});
+});
+document.querySelectorAll('[data-work]').forEach(()=>{});
+</script>
+</body></html>
